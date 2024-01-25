@@ -6,8 +6,7 @@ on:
     branches: [master]
 
 concurrency:
-  group: Main
-#  group: ${{ github.workflow }}-${{ github.ref }}
+  group: release-${{ github.ref }}
 
 env:
   REGISTRY: europe-west1-docker.pkg.dev

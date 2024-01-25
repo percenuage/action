@@ -7,9 +7,8 @@ on:
 #    tags: [v*.*.*]
 
 concurrency:
-  group: Main
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
 
 env:
   REGISTRY: europe-west1-docker.pkg.dev
