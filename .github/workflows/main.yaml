@@ -1,44 +1,43 @@
-name: Main
-
-on:
-  workflow_dispatch:
-  push:
-    branches: [master]
-    tags: [v*.*.*]
-
-env:
-  REGISTRY: europe-west1-docker.pkg.dev
-  IMAGE_NAME: leequid/leequid/back
-  CLUSTER_NAME: leequid
-  CLUSTER_ZONE: europe-west1-c
-  CLUSTER_NAMESPACE: main
-
-jobs:
-  build-and-push-image:
-    name: Build and Push Docker Image
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: echo
-        run: echo ${{ github.workflow }}-${{ github.ref }}
-
-      - name: Extract metadata for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          flavor: |
-            latest=false
-          tags: |
-            type=sha,priority=1000,prefix={{date 'YYYY-MM-DDThh-mm'}}_
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern=v{{version}}
-            type=semver,pattern=v{{major}}.{{minor}}
-            type=semver,pattern=v{{major}}
-            type=raw,value=main,enable={{is_default_branch}}
+#name: Main
+#
+#on:
+#  workflow_dispatch:
+#  push:
+#    branches: [master]
+##    tags: [v*.*.*]
+#
+#env:
+#  REGISTRY: europe-west1-docker.pkg.dev
+#  IMAGE_NAME: leequid/leequid/back
+#  CLUSTER_NAME: leequid
+#  CLUSTER_ZONE: europe-west1-c
+#  CLUSTER_NAMESPACE: main
+#
+#jobs:
+#  build-and-push-image:
+#    name: Build and Push Docker Image
+#    runs-on: ubuntu-22.04
+#    permissions:
+#      contents: read
+#      id-token: write
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v4
+#
+#      - name: echo
+#        run: echo ${{ github.workflow }}-${{ github.ref }}
+#
+#      - name: Extract metadata for Docker
+#        id: meta
+#        uses: docker/metadata-action@v5
+#        with:
+#          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+#          flavor: |
+#            latest=false
+#          tags: |
+#            type=sha,priority=1000,prefix={{date 'YYYY-MM-DDThh-mm'}}_
+#            type=ref,event=branch
+#            type=ref,event=pr
+#            type=semver,pattern=v{{version}}
+#            type=semver,pattern=v{{major}}.{{minor}}
+#            type=semver,pattern=v{{major}}

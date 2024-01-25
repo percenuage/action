@@ -1,0 +1,43 @@
+name: Bump
+
+on:
+  workflow_dispatch:
+  push:
+    tags: [v*.*.*]
+
+env:
+  REGISTRY: europe-west1-docker.pkg.dev
+  IMAGE_NAME: leequid/leequid/back
+  CLUSTER_NAME: leequid
+  CLUSTER_ZONE: europe-west1-c
+  CLUSTER_NAMESPACE: main
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: echo
+        run: echo "${{github.ref.name}} --- ${{github.ref_name}}"
+
+#      - name: Automated Version Bump
+#        uses: phips28/gh-action-bump-version@v10
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          skip-tag: true
+#          commit-message: 'ci: bumps version to {{version}} [skip ci]'
+#
+#      - name: 'cat package.json'
+#        run: cat ./package.json
+#
+#      - name: 'Output Step'
+#        env:
+#          NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
+#        run: echo "new tag $NEW_TAG"
