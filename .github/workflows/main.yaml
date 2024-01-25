@@ -13,11 +13,6 @@ env:
   CLUSTER_ZONE: europe-west1-c
   CLUSTER_NAMESPACE: main
 
-concurrency:
-  group: ${{ github.event.head_commit.message }}
-#  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build-and-push-image:
     name: Build and Push Docker Image
@@ -47,3 +42,15 @@ jobs:
             type=semver,pattern=v{{version}}
             type=semver,pattern=v{{major}}.{{minor}}
             type=semver,pattern=v{{major}}
+  release:
+    name: Release
+    runs-on: ubuntu-22.04
+    if: github.ref_type == tag
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
