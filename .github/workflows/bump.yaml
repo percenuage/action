@@ -27,7 +27,7 @@ jobs:
         run: echo "${{github.ref_name}}"
 
       - name: Update package
-        run: npm version ${{github.ref_name#v}}
+        run: npm version from-git --allow-same-version
 
 #      - name: Automated Version Bump
 #        uses: phips28/gh-action-bump-version@v10
