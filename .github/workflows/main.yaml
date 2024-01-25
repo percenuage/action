@@ -6,7 +6,8 @@ on:
     branches: [master]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.ref }}
+#  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -26,6 +27,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: echo
+        run: echo ${{ github.workflow }}-${{ github.ref }}
 
       - name: Extract metadata for Docker
         id: meta
