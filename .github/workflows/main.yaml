@@ -6,8 +6,7 @@ on:
     branches: [master]
 
 concurrency:
-  group: release
-  cancel-in-progress: true
+  group: Release-${{ github.ref }}
 
 
 env:
