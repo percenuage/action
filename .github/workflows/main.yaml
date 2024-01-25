@@ -5,8 +5,8 @@ on:
   push:
     branches: [master]
 
-concurrency:
-  group: ${{ github.ref }}
+#concurrency:
+#  group: ${{ github.ref }}
 
 
 env:
