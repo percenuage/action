@@ -6,7 +6,6 @@ on:
     branches: [master]
 #    tags: [v*.*.*]
 
-
 env:
   REGISTRY: europe-west1-docker.pkg.dev
   IMAGE_NAME: leequid/leequid/back
