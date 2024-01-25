@@ -45,7 +45,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-22.04
-    if: github.ref_type == tag
+    if: github.ref_type == 'tag'
     permissions:
       contents: read
     steps:
