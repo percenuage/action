@@ -4,10 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [master]
-
-concurrency:
-  group: Main
-
+    tags: [v*.*.*]
 
 env:
   REGISTRY: europe-west1-docker.pkg.dev
@@ -35,9 +32,12 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          flavor: |
+            latest=false
           tags: |
             type=sha,priority=1000,prefix={{date 'YYYY-MM-DDThh-mm'}}_,enable={{is_default_branch}}
             type=ref,event=branch
             type=ref,event=pr
-
-
+            type=semver,pattern=v{{version}}
+            type=semver,pattern=v{{major}}.{{minor}}
+            type=semver,pattern=v{{major}}
