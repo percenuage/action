@@ -13,6 +13,11 @@ env:
   CLUSTER_ZONE: europe-west1-c
   CLUSTER_NAMESPACE: main
 
+concurrency:
+  group: ${{ github.event.head_commit.message }}
+#  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-push-image:
     name: Build and Push Docker Image
