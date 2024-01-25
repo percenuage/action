@@ -6,6 +6,9 @@ on:
     branches: [ master ]
 #    tags: [v*.*.*]
 
+concurrency:
+  group: Main
+
 env:
   REGISTRY: europe-west1-docker.pkg.dev
   IMAGE_NAME: leequid/leequid/back
