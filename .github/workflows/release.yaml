@@ -8,6 +8,8 @@ on:
 
 concurrency:
   group: Main
+  cancel-in-progress: true
+
 
 env:
   REGISTRY: europe-west1-docker.pkg.dev
