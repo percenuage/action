@@ -35,9 +35,10 @@ jobs:
           flavor: |
             latest=false
           tags: |
-            type=sha,priority=1000,prefix={{date 'YYYY-MM-DDThh-mm'}}_,enable={{is_default_branch}}
+            type=sha,priority=1000,prefix={{date 'YYYY-MM-DDThh-mm'}}_
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern=v{{version}}
             type=semver,pattern=v{{major}}.{{minor}}
             type=semver,pattern=v{{major}}
+            type=raw,value=main,enable={{is_default_branch}}
