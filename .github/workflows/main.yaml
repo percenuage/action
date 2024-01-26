@@ -2,19 +2,9 @@ name: Main
 
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Bump npm version'
-        required: true
-        default: patch
-        type: choice
-        options:
-          - patch
-          - minor
-          - major
-#  push:
-#    branches: [master]
-#    tags: [v*.*.*]
+  push:
+    branches: [master]
+    tags: [v*.*.*]
 
 env:
   REGISTRY: europe-west1-docker.pkg.dev
@@ -28,60 +18,38 @@ jobs:
     name: Build and Push Docker Image
     runs-on: ubuntu-22.04
     permissions:
-      contents: write
+      contents: read
       id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - run: echo "${{ inputs.version }}"
-
-      - name: Automated Version Bump
-        uses: phips28/gh-action-bump-version@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
         with:
-          version-type: ${{ inputs.version }}
-#          commit-message: 'CI: bumps version to {{version}} [skip ci]'
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          flavor: |
+            latest=false
+          tags: |
+            type=sha,priority=1000,prefix={{date 'YYYY-MM-DDThh-mm'}}_
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern=v{{version}}
+            type=semver,pattern=v{{major}}.{{minor}}
+            type=semver,pattern=v{{major}}
 
-#      - run: |
-#          echo "Log level: ${{ inputs.logLevel }}"
-#          echo "Log level: $LEVEL"
-#          echo "Tags: $TAGS"
-#          echo "Environment: $ENVIRONMENT"
-#        env:
-#          LEVEL: ${{ inputs.logLevel }}
-#          TAGS: ${{ inputs.tags }}
-#          ENVIRONMENT: ${{ inputs.environment }}
+  release:
+    name: Github Release
+    runs-on: ubuntu-22.04
+    if: github.ref_type == 'tag'
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-#      - name: echo
-#        run: echo "${{ github.ref }} | ${{github.ref_name}} | ${{github.event.head_commit.message}}"
-#
-#      - name: Extract metadata for Docker
-#        id: meta
-#        uses: docker/metadata-action@v5
-#        with:
-#          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-#          flavor: |
-#            latest=false
-#          tags: |
-#            type=sha,priority=1000,prefix={{date 'YYYY-MM-DDThh-mm'}}_
-#            type=ref,event=branch
-#            type=ref,event=pr
-#            type=semver,pattern=v{{version}}
-#            type=semver,pattern=v{{major}}.{{minor}}
-#            type=semver,pattern=v{{major}}
-#  release:
-#    name: Github Release
-#    runs-on: ubuntu-22.04
-#    if: github.ref_type == 'tag'
-#    permissions:
-#      contents: write
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v4
-#
-#      - name: Release
-#        uses: softprops/action-gh-release@v1
-#        with:
-#          generate_release_notes: true
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true

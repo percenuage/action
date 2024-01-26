@@ -1,0 +1,36 @@
+name: Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Bump npm version
+        required: true
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  bump:
+    name: Bump NPM Package
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions [Bot]"
+
+      - name: Bump
+        run: |
+          echo "${{ inputs.version }}"
+          npm version ${{ inputs.version }}
+          git push --follow-tags
