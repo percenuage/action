@@ -2,9 +2,27 @@ name: Main
 
 on:
   workflow_dispatch:
-  push:
-    branches: [master]
-    tags: [v*.*.*]
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+          - info
+          - warning
+          - debug
+      tags:
+        description: 'Test scenario tags'
+        required: false
+        type: boolean
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+        required: true
+#  push:
+#    branches: [master]
+#    tags: [v*.*.*]
 
 env:
   REGISTRY: europe-west1-docker.pkg.dev
@@ -25,6 +43,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - run: |
+          echo "Log level: ${{ inputs.logLevel }}"
+          echo "Log level: $LEVEL"
+          echo "Tags: $TAGS"
+          echo "Environment: $ENVIRONMENT"
+        env:
+          LEVEL: ${{ inputs.logLevel }}
+          TAGS: ${{ inputs.tags }}
+          ENVIRONMENT: ${{ inputs.environment }}
+
       - name: echo
         run: echo "${{ github.ref }} | ${{github.ref_name}} | ${{github.event.head_commit.message}}"
 
@@ -42,18 +70,17 @@ jobs:
             type=semver,pattern=v{{version}}
             type=semver,pattern=v{{major}}.{{minor}}
             type=semver,pattern=v{{major}}
-  release:
-    name: Release
-    runs-on: ubuntu-22.04
-    if: github.ref_type == 'tag'
-    permissions:
-      contents: write
-#      id-token: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          generate_release_notes: true
+#  release:
+#    name: Github Release
+#    runs-on: ubuntu-22.04
+#    if: github.ref_type == 'tag'
+#    permissions:
+#      contents: write
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v4
+#
+#      - name: Release
+#        uses: softprops/action-gh-release@v1
+#        with:
+#          generate_release_notes: true
