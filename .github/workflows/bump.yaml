@@ -23,9 +23,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
+#        with:
+#          persist-credentials: false
+#          fetch-depth: 0
 
       - name: Configure Git
         run: |
@@ -35,11 +35,11 @@ jobs:
       - name: Bump
         run: |
           npm version ${{ inputs.version }}
-          #git push --follow-tags
+          git push --follow-tags
 
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
-          tags: true
+#      - name: Push changes
+#        uses: ad-m/github-push-action@master
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          branch: ${{ github.ref }}
+#          tags: true
