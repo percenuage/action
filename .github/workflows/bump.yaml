@@ -17,9 +17,6 @@ jobs:
   bump:
     name: Bump NPM Package
     runs-on: ubuntu-22.04
-    permissions:
-      contents: write
-#      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
