@@ -59,8 +59,7 @@ jobs:
         with:
           cmd: yq '.appVersion' charts/app/Chart.yaml
 
-#      - name: Install yq
-#        run: wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
+
 #
 #      - name: Get current chart & app version
 #        id: version
@@ -86,3 +85,5 @@ jobs:
 #          echo ${{ steps.semvers.outputs.v_patch }}
 #          echo ${{ steps.semvers.outputs.v_minor }}
 
+      - name: Install yq
+        run: sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
