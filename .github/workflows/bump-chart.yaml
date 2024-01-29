@@ -53,8 +53,8 @@ jobs:
       - name: Get current chart & app version
         id: version
         run: |
-          chart=$(yq '.version' charts/app/Chart.yaml) >> $GITHUB_OUTPUT
-          app=$(yq '.appVersion' charts/app/Chart.yaml) >> $GITHUB_OUTPUT
+          echo "chart=$(yq '.version' charts/app/Chart.yaml)" >> $GITHUB_OUTPUT
+          echo "app=$(yq '.appVersion' charts/app/Chart.yaml)" >> $GITHUB_OUTPUT
 
 #      - name: Get next version
 #        id: semvers
