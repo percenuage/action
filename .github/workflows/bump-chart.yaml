@@ -7,12 +7,13 @@ on:
         description: Selected chart to bump
         required: true
         default: app
-        type: app
+        type: choice
         options:
           - app
           - staking
       chart-version:
         description: Chart version
+        default: ""
         type: choice
         options:
           - patch
@@ -20,6 +21,7 @@ on:
           - major
       app-version:
         description: App version
+        default: ""
         type: choice
         options:
           - patch
