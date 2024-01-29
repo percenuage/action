@@ -47,25 +47,14 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "GitHub Actions [Bot]"
 
-      - name: Get current chart version
-        id: chart-version
-        uses: mikefarah/yq@master
-        with:
-          cmd: yq '.version' charts/app/Chart.yaml
+      - name: Install yq
+        run: sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
 
-      - name: Get current chart version
-        id: app-version
-        uses: mikefarah/yq@master
-        with:
-          cmd: yq '.appVersion' charts/app/Chart.yaml
-
-
-#
-#      - name: Get current chart & app version
-#        id: version
-#        run: |
-#          chart=$(yq '.version' charts/app/Chart.yaml) >> $GITHUB_OUTPUT
-#          app=$(yq '.appVersion' charts/app/Chart.yaml) >> $GITHUB_OUTPUT
+      - name: Get current chart & app version
+        id: version
+        run: |
+          chart=$(yq '.version' charts/app/Chart.yaml) >> $GITHUB_OUTPUT
+          app=$(yq '.appVersion' charts/app/Chart.yaml) >> $GITHUB_OUTPUT
 
 #      - name: Get next version
 #        id: semvers
@@ -76,14 +65,13 @@ jobs:
 
       - name: Bump
         run: |
-          echo ${{ steps.chart-version.outputs.result }}
-          echo ${{ steps.app-version.outputs.result }}
-#          echo ${{ steps.version.outputs.chart }}
-#          echo ${{ steps.version.outputs.app }}
+#          echo ${{ steps.chart-version.outputs.result }}
+#          echo ${{ steps.app-version.outputs.result }}
+          echo ${{ steps.version.outputs.chart }}
+          echo ${{ steps.version.outputs.app }}
 #          echo ${{ steps.semvers.outputs.patch }}
 #          echo ${{ steps.semvers.outputs.minor }}
 #          echo ${{ steps.semvers.outputs.v_patch }}
 #          echo ${{ steps.semvers.outputs.v_minor }}
 
-      - name: Install yq
-        run: sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
+
