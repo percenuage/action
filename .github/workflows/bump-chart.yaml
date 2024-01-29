@@ -6,7 +6,7 @@ on:
       chart:
         description: Selected chart to bump
         required: true
-        default: patch
+        default: app
         type: app
         options:
           - app
@@ -45,17 +45,28 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "GitHub Actions [Bot]"
 
-      - name: Get next version
-        id: semvers
-        uses: WyriHaximus/github-action-next-semvers@v1
-        with:
-          version: v1.4.0
+      - name: Install yq
+        run: wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+
+      - name: Get current chart & app version
+        id: version
+        run: |
+          chart=$(yq '.version' charts/app/Chart.yaml) >> $GITHUB_OUTPUT
+          app=$(yq '.appVersion' charts/app/Chart.yaml) >> $GITHUB_OUTPUT
+
+#      - name: Get next version
+#        id: semvers
+#        uses: WyriHaximus/github-action-next-semvers@v1
+#        with:
+#          version: v1.4.0
 
 
       - name: Bump
         run: |
-          echo ${{ steps.semvers.outputs.patch }}
-          echo ${{ steps.semvers.outputs.minor }}
-          echo ${{ steps.semvers.outputs.v_patch }}
-          echo ${{ steps.semvers.outputs.v_minor }}
+          echo ${{ steps.version.outputs.chart }}
+          echo ${{ steps.version.outputs.app }}
+#          echo ${{ steps.semvers.outputs.patch }}
+#          echo ${{ steps.semvers.outputs.minor }}
+#          echo ${{ steps.semvers.outputs.v_patch }}
+#          echo ${{ steps.semvers.outputs.v_minor }}
 
