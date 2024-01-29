@@ -34,13 +34,13 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: write
-#      id-token: write
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
+#        with:
+#          persist-credentials: false
+#          fetch-depth: 0
 
       - name: Configure Git
         run: |
@@ -48,7 +48,7 @@ jobs:
           git config --local user.name "GitHub Actions [Bot]"
 
       - name: Install yq
-        run: wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+        run: wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
 
       - name: Get current chart & app version
         id: version
