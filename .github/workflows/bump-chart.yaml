@@ -13,17 +13,17 @@ on:
           - staking
       chart-version:
         description: Chart version
-        default: ""
         type: choice
         options:
+          - ""
           - patch
           - minor
           - major
       app-version:
         description: App version
-        default: ""
         type: choice
         options:
+          - ""
           - patch
           - minor
           - major
