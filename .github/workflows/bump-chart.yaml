@@ -62,13 +62,13 @@ jobs:
 #        with:
 #          version: v1.4.0
 
-
       - name: Bump
         run: |
+           echo ${{ steps.version.outputs.chart }}
+           echo ${{ steps.version.outputs.app }}
+
 #          echo ${{ steps.chart-version.outputs.result }}
 #          echo ${{ steps.app-version.outputs.result }}
-          echo ${{ steps.version.outputs.chart }}
-          echo ${{ steps.version.outputs.app }}
 #          echo ${{ steps.semvers.outputs.patch }}
 #          echo ${{ steps.semvers.outputs.minor }}
 #          echo ${{ steps.semvers.outputs.v_patch }}
