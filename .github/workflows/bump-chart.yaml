@@ -62,13 +62,13 @@ jobs:
           version: ${{ steps.version.outputs.chart }}
 
       - name: Set next patch chart version
-        if: ${{ contains(github.event.head_commit.message | tr '[:upper:]' '[:lower:]', 'fix') }}
+        if: ${{ contains(github.event.head_commit.message, 'fix') }}
         run: |
           yq -i '.version = "${{ steps.semvers.outputs.patch }}"' charts/app/Chart.yaml
           yq '.version' charts/app/Chart.yaml
 
       - name: Set next patch chart version
-        if: ${{ ! contains(github.event.head_commit.message | tr '[:upper:]' '[:lower:]', 'fix') }}
+        if: ${{ ! contains(github.event.head_commit.message, 'fix') }}
         run: |
           yq -i '.version = "${{ steps.semvers.outputs.minor }}"' charts/app/Chart.yaml
           yq '.version' charts/app/Chart.yaml
