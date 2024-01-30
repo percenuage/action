@@ -18,5 +18,5 @@ jobs:
 
       - name: echo
         run: |
-          echo ${{ fromJSON(github.event.client_payload) }}
-          #echo ${{ toJSON(github.event.client_payload) }}
+          echo ${{ toJson(github) }}
+          echo ${{ github.event.client_payload }}
