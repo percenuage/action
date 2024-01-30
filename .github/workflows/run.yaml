@@ -1,6 +1,8 @@
 name: Run
 
 on:
+  push:
+    branches: [master]
   workflow_dispatch:
   repository_dispatch:
     types: [ trigger-workflow ]
@@ -11,7 +13,7 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: read
-#      id-token: write
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,4 +21,3 @@ jobs:
       - name: echo
         run: |
           echo ${{ toJson(github) }}
-          echo ${{ github.event.client_payload }}
