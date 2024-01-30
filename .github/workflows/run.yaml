@@ -20,5 +20,5 @@ jobs:
 
       - name: echo
         run: |
-          echo ${{ github }}
-          echo ${{ toJSON(github) }}
+          echo ${{ github.event.client_payload }}
+          echo ${{ toJSON(github.event.client_payload) }}
