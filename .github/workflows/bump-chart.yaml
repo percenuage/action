@@ -1,32 +1,35 @@
 name: Bump Chart
 
 on:
-  workflow_dispatch:
-    inputs:
-      chart:
-        description: Selected chart to bump
-        required: true
-        default: app
-        type: choice
-        options:
-          - app
-          - staking
-      chart-version:
-        description: Chart version
-        type: choice
-        options:
-          - ""
-          - patch
-          - minor
-          - major
-      app-version:
-        description: App version
-        type: choice
-        options:
-          - ""
-          - patch
-          - minor
-          - major
+  push:
+    paths:
+      - 'charts/app/**'
+#  workflow_dispatch:
+#    inputs:
+#      chart:
+#        description: Selected chart to bump
+#        required: true
+#        default: app
+#        type: choice
+#        options:
+#          - app
+#          - staking
+#      chart-version:
+#        description: Chart version
+#        type: choice
+#        options:
+#          - ""
+#          - patch
+#          - minor
+#          - major
+#      app-version:
+#        description: App version
+#        type: choice
+#        options:
+#          - ""
+#          - patch
+#          - minor
+#          - major
 
 jobs:
   bump:
@@ -38,9 +41,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-#        with:
-#          persist-credentials: false
-#          fetch-depth: 0
 
       - name: Configure Git
         run: |
@@ -50,11 +50,11 @@ jobs:
       - name: Install yq
         run: sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
 
-      - name: Get current chart & app version
-        id: version
-        run: |
-          echo "chart=$(yq '.version' charts/app/Chart.yaml)" >> $GITHUB_OUTPUT
-          echo "app=$(yq '.appVersion' charts/app/Chart.yaml)" >> $GITHUB_OUTPUT
+#      - name: Get current chart & app version
+#        id: version
+#        run: |
+#          echo "chart=$(yq '.version' charts/app/Chart.yaml)" >> $GITHUB_OUTPUT
+#          echo "app=$(yq '.appVersion' charts/app/Chart.yaml)" >> $GITHUB_OUTPUT
 
 #      - name: Get next version
 #        id: semvers
@@ -62,10 +62,10 @@ jobs:
 #        with:
 #          version: v1.4.0
 
-      - name: Bump
-        run: |
-           echo ${{ steps.version.outputs.chart }}
-           echo ${{ steps.version.outputs.app }}
+#      - name: Bump
+#        run: |
+#           echo ${{ steps.version.outputs.chart }}
+#           echo ${{ steps.version.outputs.app }}
 
 #          echo ${{ steps.chart-version.outputs.result }}
 #          echo ${{ steps.app-version.outputs.result }}
