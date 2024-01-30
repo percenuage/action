@@ -38,7 +38,6 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: write
-      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -73,17 +72,5 @@ jobs:
           git add *
           git commit -m "bump(charts/app): $(yq '.version' charts/app/Chart.yaml)"
           git push origin
-
-#      - name: Bump
-#        run: |
-#           echo ${{ steps.version.outputs.chart }}
-#           echo ${{ steps.version.outputs.app }}
-
-#          echo ${{ steps.chart-version.outputs.result }}
-#          echo ${{ steps.app-version.outputs.result }}
-#          echo ${{ steps.semvers.outputs.patch }}
-#          echo ${{ steps.semvers.outputs.minor }}
-#          echo ${{ steps.semvers.outputs.v_patch }}
-#          echo ${{ steps.semvers.outputs.v_minor }}
 
 
