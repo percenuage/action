@@ -2,8 +2,9 @@ name: Bump Chart
 
 on:
   push:
-    paths:
-      - 'charts/app/**'
+    branches: [master]
+    paths: [charts/app/**]
+
 #  workflow_dispatch:
 #    inputs:
 #      chart:
