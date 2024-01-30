@@ -61,10 +61,13 @@ jobs:
         with:
           version: ${{ steps.version.outputs.chart }}
 
-      - name: Set next chart version
+      - name: Set next patch chart version
+#        if: ${{ contains('fix') }}
         run: |
-          yq -i '.version = "${{ steps.semvers.outputs.patch }}"' charts/app/Chart.yaml
-          yq '.version' charts/app/Chart.yaml
+          echo ${{ github.event.head_commit.message }}
+          echo ${{ github.event.workflow_run.head_commit.message }}
+#          yq -i '.version = "${{ steps.semvers.outputs.patch }}"' charts/app/Chart.yaml
+#          yq '.version' charts/app/Chart.yaml
 
 #      - name: Bump
 #        run: |

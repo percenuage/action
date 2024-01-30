@@ -2,9 +2,9 @@ name: Main
 
 on:
   workflow_dispatch:
-  push:
-    branches: [master]
-    tags: [v*.*.*]
+#  push:
+#    branches: [master]
+#    tags: [v*.*.*]
 
 env:
   REGISTRY: europe-west1-docker.pkg.dev
